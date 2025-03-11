@@ -43,22 +43,22 @@ st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
 st.write("Enter network connection details below to check for intrusions.")
 
-st.markdown("<h4>Count</h4><p style='font-size:14px; color:gray;'>Number of connections to the same host in a short time.</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Count: <span style='font-weight:normal;'>Number of connections to the same host in a short time.</span></p>", unsafe_allow_html=True)
 count = st.number_input("Count", min_value=0, value=5)
 
-st.markdown("<h4>Source Bytes</h4><p style='font-size:14px; color:gray;'>Data sent from source to destination (in bytes).</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Source Bytes: <span style='font-weight:normal;'>Data sent from source to destination (in bytes).</span></p>", unsafe_allow_html=True)
 src_bytes = st.number_input("Source Bytes", min_value=0, value=500)
 
-st.markdown("<h4>Logged In</h4><p style='font-size:14px; color:gray;'>Indicates whether the user is logged in (1 = Yes, 0 = No).</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Logged In: <span style='font-weight:normal;'>Indicates whether the user is logged in (1 = Yes, 0 = No).</span></p>", unsafe_allow_html=True)
 logged_in = st.selectbox("Logged In", [0, 1])
 
-st.markdown("<h4>Service Error Rate</h4><p style='font-size:14px; color:gray;'>Percentage of connections that have SYN errors.</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Error Rate: <span style='font-weight:normal;'>Percentage of connections that have SYN errors.</span></p>", unsafe_allow_html=True)
 srv_serror_rate = st.number_input("Service Error Rate", min_value=0.0, max_value=1.0, value=0.2)
 
-st.markdown("<h4>Destination Bytes</h4><p style='font-size:14px; color:gray;'>Data sent from destination to source (in bytes).</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Destination Bytes: <span style='font-weight:normal;'>Data sent from destination to source (in bytes).</span></p>", unsafe_allow_html=True)
 dst_bytes = st.number_input("Destination Bytes", min_value=0, value=1000)
 
-st.markdown("<h4>Service Count</h4><p style='font-size:14px; color:gray;'>Number of connections to the same service.</p>", unsafe_allow_html=True)
+st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Count: <span style='font-weight:normal;'>Number of connections to the same service.</span></p>", unsafe_allow_html=True)
 srv_count = st.number_input("Service Count", min_value=0, value=10)
 
 
