@@ -41,24 +41,41 @@ st.sidebar.write("""
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access")
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Count: <span style='font-weight:normal;'>Number of connections to the same host in a short time.</span></p>", unsafe_allow_html=True)
-count = st.number_input("", min_value=0, value=5, key="count")
+# Define styling for feature names
+feature_style = "<p style='font-size:16px; font-weight:bold; margin-bottom:5px;'>"
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Source Bytes: <span style='font-weight:normal;'>Data sent from source to destination (in bytes).</span></p>", unsafe_allow_html=True)
-src_bytes = st.number_input("", min_value=0, value=500, key="src_bytes")
+# Use columns to align labels and input boxes
+col1, col2 = st.columns([2, 3])  # Adjust column widths as needed
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Logged In: <span style='font-weight:normal;'>Indicates whether the user is logged in (1 = Yes, 0 = No).</span></p>", unsafe_allow_html=True)
-logged_in = st.selectbox("", [0, 1], key="logged_in")
+with col1:
+    st.markdown(f"{feature_style}Count:</p>", unsafe_allow_html=True)
+with col2:
+    count = st.number_input("", min_value=0, value=5, key="count")
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Error Rate: <span style='font-weight:normal;'>Percentage of connections that have SYN errors.</span></p>", unsafe_allow_html=True)
-srv_serror_rate = st.number_input("", min_value=0.0, max_value=1.0, value=0.2, key="srv_serror_rate")
+with col1:
+    st.markdown(f"{feature_style}Source Bytes:</p>", unsafe_allow_html=True)
+with col2:
+    src_bytes = st.number_input("", min_value=0, value=500, key="src_bytes")
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Destination Bytes: <span style='font-weight:normal;'>Data sent from destination to source (in bytes).</span></p>", unsafe_allow_html=True)
-dst_bytes = st.number_input("", min_value=0, value=1000, key="dst_bytes")
+with col1:
+    st.markdown(f"{feature_style}Logged In:</p>", unsafe_allow_html=True)
+with col2:
+    logged_in = st.selectbox("", [0, 1], key="logged_in")
 
-st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Count: <span style='font-weight:normal;'>Number of connections to the same service.</span></p>", unsafe_allow_html=True)
-srv_count = st.number_input("", min_value=0, value=10, key="srv_count")
+with col1:
+    st.markdown(f"{feature_style}Service Error Rate:</p>", unsafe_allow_html=True)
+with col2:
+    srv_serror_rate = st.number_input("", min_value=0.0, max_value=1.0, value=0.2, key="srv_serror_rate")
 
+with col1:
+    st.markdown(f"{feature_style}Destination Bytes:</p>", unsafe_allow_html=True)
+with col2:
+    dst_bytes = st.number_input("", min_value=0, value=1000, key="dst_bytes")
+
+with col1:
+    st.markdown(f"{feature_style}Service Count:</p>", unsafe_allow_html=True)
+with col2:
+    srv_count = st.number_input("", min_value=0, value=10, key="srv_count")
 
 # Predict button
 if st.button("🔍 Detect Intrusion"):
