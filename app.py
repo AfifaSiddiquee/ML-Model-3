@@ -2,9 +2,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load trained model and scaler
+# Load trained model, scaler, and feature names
 model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
+feature_names = joblib.load("feature_names.pkl")  # Load saved feature names
 
 # Define function for prediction
 def predict_intrusion(data):
@@ -12,12 +13,12 @@ def predict_intrusion(data):
     df = pd.DataFrame([data])
 
     # Ensure all features exist
-    for col in X_train.columns:
+    for col in feature_names:  # Use loaded feature names instead of X_train.columns
         if col not in df:
             df[col] = 0
 
     # Reorder columns
-    df = df[X_train.columns]
+    df = df[feature_names]
 
     # Scale the data
     df_scaled = scaler.transform(df)
