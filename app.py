@@ -39,9 +39,7 @@ st.sidebar.write("""
 """)
 
 st.title("🔍 Intrusion Detection System")
-st.subheader("Protect Your Network from Unauthorized Access 🚀")
-
-st.write("Enter network connection details below to check for intrusions.")
+st.subheader("Protect Your Network from Unauthorized Access")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Count: <span style='font-weight:normal;'>Number of connections to the same host in a short time.</span></p>", unsafe_allow_html=True)
 count = st.number_input("", min_value=0, value=5, key="count")
