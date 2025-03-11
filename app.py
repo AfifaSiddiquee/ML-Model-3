@@ -44,22 +44,22 @@ st.subheader("Protect Your Network from Unauthorized Access 🚀")
 st.write("Enter network connection details below to check for intrusions.")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Count: <span style='font-weight:normal;'>Number of connections to the same host in a short time.</span></p>", unsafe_allow_html=True)
-count = st.number_input("Count", min_value=0, value=5)
+count = st.number_input("", min_value=0, value=5, key="count")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Source Bytes: <span style='font-weight:normal;'>Data sent from source to destination (in bytes).</span></p>", unsafe_allow_html=True)
-src_bytes = st.number_input("Source Bytes", min_value=0, value=500)
+src_bytes = st.number_input("", min_value=0, value=500, key="src_bytes")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Logged In: <span style='font-weight:normal;'>Indicates whether the user is logged in (1 = Yes, 0 = No).</span></p>", unsafe_allow_html=True)
-logged_in = st.selectbox("Logged In", [0, 1])
+logged_in = st.selectbox("", [0, 1], key="logged_in")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Error Rate: <span style='font-weight:normal;'>Percentage of connections that have SYN errors.</span></p>", unsafe_allow_html=True)
-srv_serror_rate = st.number_input("Service Error Rate", min_value=0.0, max_value=1.0, value=0.2)
+srv_serror_rate = st.number_input("", min_value=0.0, max_value=1.0, value=0.2, key="srv_serror_rate")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Destination Bytes: <span style='font-weight:normal;'>Data sent from destination to source (in bytes).</span></p>", unsafe_allow_html=True)
-dst_bytes = st.number_input("Destination Bytes", min_value=0, value=1000)
+dst_bytes = st.number_input("", min_value=0, value=1000, key="dst_bytes")
 
 st.markdown("<p style='font-size:16px; font-weight:bold;'>Service Count: <span style='font-weight:normal;'>Number of connections to the same service.</span></p>", unsafe_allow_html=True)
-srv_count = st.number_input("Service Count", min_value=0, value=10)
+srv_count = st.number_input("", min_value=0, value=10, key="srv_count")
 
 
 # Predict button
