@@ -27,9 +27,33 @@ def predict_intrusion(data):
     prediction = model.predict(df_scaled)
     return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
 
-# Streamlit UI
-st.title("🔍 Intrusion Detection System")
-st.write("Enter network connection details to check for intrusions.")
+# Add a sidebar for more details
+st.sidebar.title("📖 About the IDS App")
+st.sidebar.write("""
+🔹 **This is a Machine Learning-based Intrusion Detection System (IDS).**  
+🔹 It helps identify **malicious network traffic** and **protects networks from attacks.**  
+🔹 **How to use:**  
+&nbsp;&nbsp;&nbsp; 1️⃣ Enter network details in the main panel.  
+&nbsp;&nbsp;&nbsp; 2️⃣ Click **"Detect Intrusion"** to analyze the connection.  
+&nbsp;&nbsp;&nbsp; 3️⃣ The app will classify it as **Normal (Safe) 🔵** or **Intrusion (Attack!) 🔴**.  
+""")
+
+# Add another section in the sidebar for feature explanations
+st.sidebar.header("📌 Feature Descriptions")
+st.sidebar.write("""
+🔹 **Count:** Number of connections to the same host in a short time.  
+🔹 **Source Bytes:** Data sent from source to destination.  
+🔹 **Logged In:** Whether the user is logged in (1 = Yes, 0 = No).  
+🔹 **Service Error Rate:** Percentage of connections that have errors.  
+🔹 **Destination Bytes:** Data sent from destination to source.  
+🔹 **Service Count:** Number of connections to the same service.  
+""")
+
+# Add a contact/info section
+st.sidebar.markdown("---")
+st.sidebar.subheader("ℹ️ More Information")
+st.sidebar.write("🔗 Visit [Streamlit Docs](https://docs.streamlit.io/) for more about Streamlit apps!")
+
 
 # User input fields
 count = st.number_input("Count", min_value=0, value=5)
