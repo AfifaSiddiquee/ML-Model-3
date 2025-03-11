@@ -38,29 +38,28 @@ st.sidebar.write("""
 &nbsp;&nbsp;&nbsp; 3️⃣ The app will classify it as **Normal (Safe) 🔵** or **Intrusion (Attack!) 🔴**.  
 """)
 
-# Add another section in the sidebar for feature explanations
-st.sidebar.header("📌 Feature Descriptions")
-st.sidebar.write("""
-🔹 **Count:** Number of connections to the same host in a short time.  
-🔹 **Source Bytes:** Data sent from source to destination.  
-🔹 **Logged In:** Whether the user is logged in (1 = Yes, 0 = No).  
-🔹 **Service Error Rate:** Percentage of connections that have errors.  
-🔹 **Destination Bytes:** Data sent from destination to source.  
-🔹 **Service Count:** Number of connections to the same service.  
-""")
+st.title("🔍 Intrusion Detection System")
+st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# Add a contact/info section
-st.sidebar.markdown("---")
-st.sidebar.subheader("ℹ️ More Information")
-st.sidebar.write("🔗 Visit [Streamlit Docs](https://docs.streamlit.io/) for more about Streamlit apps!")
+st.write("Enter network connection details below to check for intrusions.")
 
-
-# User input fields
+# Feature Input Fields with Descriptions
+st.markdown("### Count: Number of connections to the same host in a short time.")
 count = st.number_input("Count", min_value=0, value=5)
+
+st.markdown("### Source Bytes: Data sent from source to destination (in bytes).")
 src_bytes = st.number_input("Source Bytes", min_value=0, value=500)
+
+st.markdown("### Logged In: Indicates whether the user is logged in (1 = Yes, 0 = No).")
 logged_in = st.selectbox("Logged In", [0, 1])
+
+st.markdown("### Service Error Rate: Percentage of connections that have SYN errors.")
 srv_serror_rate = st.number_input("Service Error Rate", min_value=0.0, max_value=1.0, value=0.2)
+
+st.markdown("### Destination Bytes: Data sent from destination to source (in bytes).")
 dst_bytes = st.number_input("Destination Bytes", min_value=0, value=1000)
+
+st.markdown("### Service Count: Number of connections to the same service.")
 srv_count = st.number_input("Service Count", min_value=0, value=10)
 
 # Predict button
