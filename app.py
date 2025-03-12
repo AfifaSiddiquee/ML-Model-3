@@ -7,7 +7,6 @@ model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
-
 # Prediction function
 def predict_intrusion(data):
     df = pd.DataFrame([data])
@@ -18,7 +17,6 @@ def predict_intrusion(data):
     df_scaled = scaler.transform(df)
     prediction = model.predict(df_scaled)
     return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
-
 
 # Sidebar content
 st.sidebar.title("📖 About the IDS App")
@@ -33,67 +31,42 @@ st.sidebar.write(
 """
 )
 
-# **NEW COMPACT CSS INJECTION**
+# Improved CSS to force spacing changes
 st.markdown(
     """
     <style>
-    /* Reduce padding and margins globally */
-    .stApp { padding: 0rem; }
-    .block-container { padding: 0.5rem; max-width: 800px; }
-
-    /* Force inputs into rows */
-    .input-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: space-between;
-        align-items: flex-start; /* Align to top */
+    /* Streamlit main container padding fix */
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
-    /* Styling for labels and descriptions */
-    .compact-text {
+    /* Reduce space between elements */
+    .stNumberInput, .stSelectbox {
+        margin-bottom: 5px !important;
+    }
+
+    /* Adjust label spacing */
+    .stMarkdown p {
+        margin-bottom: 2px !important;
         font-size: 14px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-    }
-
-    .description {
-        font-size: 12px;
-        color: #555;
-        margin-bottom: 2px;
-        padding-bottom: 0px;
-    }
-
-    /* Compact input controls */
-    .stNumberInput input, .stSelectbox select {
-        padding: 4px;
-        font-size: 14px;
-        width: 150px;
-        margin: 0px !important;
     }
 
     /* Button styling */
-    .stButton>button {
-        color: white;
+    .stButton > button {
         background-color: #4CAF50;
+        color: white;
         padding: 8px 16px;
         border-radius: 5px;
         font-size: 16px;
-        margin-top: 10px;
         transition: 0.3s ease;
     }
 
-    .stButton>button:hover {
+    .stButton > button:hover {
         background-color: #45a049;
         transform: scale(1.05);
-    }
-
-    /* Result message styling */
-    .stAlert {
-        font-size: 18px;
-        font-weight: bold;
     }
     </style>
     """,
@@ -104,7 +77,7 @@ st.markdown(
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# **Input Fields Setup**
+# Input fields
 fields = [
     ("Count", "Number of connections to the same host in a short time.", st.number_input, {"min_value": 0, "value": 5, "key": "count"}),
     ("Source Bytes", "Data sent from source to destination (in bytes).", st.number_input, {"min_value": 0, "value": 500, "key": "src_bytes"}),
@@ -114,20 +87,11 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"}),
 ]
 
-# **Render Inputs in a Row Layout**
-st.markdown("<div class='input-container'>", unsafe_allow_html=True)
+# Display inputs with compact layout
 for feature, description, input_type, kwargs in fields:
-    st.markdown(
-        f"""
-        <div>
-            <p class='compact-text'>{feature}:</p>
-            <p class='description'>{description}</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown(f"**{feature}:**")
+    st.markdown(f"<p style='font-size:12px; color:#555; margin-top:-5px;'>{description}</p>", unsafe_allow_html=True)
     input_type("", **kwargs)
-st.markdown("</div>", unsafe_allow_html=True)
 
 # Intrusion Detection Button
 if st.button("🔍 Detect Intrusion"):
@@ -140,4 +104,3 @@ if st.button("🔍 Detect Intrusion"):
         st.error(f"🚨 **{result}** 🚨")
     else:
         st.success(f"✅ **{result}**")
-
