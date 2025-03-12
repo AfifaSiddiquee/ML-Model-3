@@ -7,7 +7,7 @@ model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
-# Prediction function
+# Define prediction function
 def predict_intrusion(data):
     df = pd.DataFrame([data])
     for col in feature_names:
@@ -29,25 +29,28 @@ st.sidebar.write("""
 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
 """)
 
-# Custom CSS for tighter layout
+# Custom CSS for forced compact layout and styling
 st.markdown(
     """
     <style>
+    /* Tighten layout and remove extra padding/margins */
+    .stApp { padding: 1rem; }
+    .block-container { padding-top: 1rem; padding-bottom: 1rem; }
     .compact-text {
         font-size: 18px;
         font-weight: bold;
+        line-height: 1.1;
         margin-bottom: 0px;
     }
     .description {
         font-size: 14px;
         color: #666;
-        margin-top: -8px;
+        margin-top: -10px;
         margin-bottom: 5px;
     }
     .stNumberInput, .stSelectbox {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        padding: 2px 0px;
+        margin-top: 0px !important;
+        margin-bottom: 5px !important;
     }
     .stButton>button {
         color: white;
@@ -56,16 +59,20 @@ st.markdown(
         border-radius: 5px;
         font-size: 18px;
     }
+    /* Force tighter columns */
+    div[data-testid="column"] {
+        padding: 0px 5px;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Main title
+# Main app title
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# Input fields configuration
+# Define input fields with their descriptions
 fields = [
     ("Count", "Number of connections to the same host in a short time.", st.number_input, {"min_value": 0, "value": 5, "key": "count"}),
     ("Source Bytes", "Data sent from source to destination (in bytes).", st.number_input, {"min_value": 0, "value": 500, "key": "src_bytes"}),
@@ -75,7 +82,7 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"})
 ]
 
-# Render inputs with tighter layout (two columns)
+# Render inputs in a two-column layout with tight margins
 for feature, description, input_type, kwargs in fields:
     col1, col2 = st.columns([1, 2])
     with col1:
@@ -88,7 +95,7 @@ for feature, description, input_type, kwargs in fields:
 if st.button("🔍 Detect Intrusion"):
     input_data = {field[0].lower().replace(" ", "_"): st.session_state[field[3]["key"]] for field in fields}
     result = predict_intrusion(input_data)
-    
+
     # Show result with dynamic color
     if "Intrusion" in result:
         st.error(f"🚨 **{result}** 🚨")
