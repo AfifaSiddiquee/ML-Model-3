@@ -24,12 +24,12 @@ st.sidebar.write("""
 🔹 **Machine Learning-based Intrusion Detection System (IDS)**
 🔹 Identifies **malicious network traffic** to **protect networks**
 🔹 **How to use:**
-&nbsp;&nbsp;&nbsp; 1️⃣ Enter network details below
-&nbsp;&nbsp;&nbsp; 2️⃣ Click **"Detect Intrusion"**
+&nbsp;&nbsp;&nbsp; 1️⃣ Enter network details below  
+&nbsp;&nbsp;&nbsp; 2️⃣ Click **"Detect Intrusion"**  
 &nbsp;&nbsp;&nbsp; 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
 """)
 
-# Custom CSS to reduce spacing and improve layout
+# Injecting Custom CSS for Compact Design
 st.markdown(
     """
     <style>
@@ -40,13 +40,13 @@ st.markdown(
     }
     .description {
         font-size: 14px;
-        color: gray;
-        margin-top: -5px;
+        color: #666;
+        margin-top: -4px;
         margin-bottom: 8px;
     }
     .stNumberInput, .stSelectbox {
         margin-top: 0px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
     </style>
     """,
@@ -57,7 +57,7 @@ st.markdown(
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access")
 
-# Grouped layout for inputs with improved formatting
+# Feature Inputs with Compact Layout
 fields = [
     ("Count", "Number of connections to the same host in a short time.", st.number_input, {"min_value": 0, "value": 5, "key": "count"}),
     ("Source Bytes", "Data sent from source to destination (in bytes).", st.number_input, {"min_value": 0, "value": 500, "key": "src_bytes"}),
@@ -67,7 +67,7 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"})
 ]
 
-# Render inputs in a clean, compact two-column layout
+# Render inputs in a compact two-column layout
 for feature, description, input_type, kwargs in fields:
     col1, col2 = st.columns([1, 2])
     with col1:
@@ -80,4 +80,9 @@ for feature, description, input_type, kwargs in fields:
 if st.button("🔍 Detect Intrusion"):
     input_data = {field[0].lower().replace(" ", "_"): st.session_state[field[3]["key"]] for field in fields}
     result = predict_intrusion(input_data)
-    st.success(f"**Prediction: {result}**")
+    
+    # Display result with color formatting
+    if "Intrusion" in result:
+        st.error(f"**🚨 {result} 🚨**")
+    else:
+        st.success(f"✅ **{result}**")
