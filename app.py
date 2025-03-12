@@ -29,6 +29,29 @@ st.sidebar.write("""
 &nbsp;&nbsp;&nbsp; 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
 """)
 
+# Custom CSS to reduce spacing
+st.markdown(
+    """
+    <style>
+    .compact-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 3px;
+    }
+    .description {
+        font-size: 14px;
+        color: gray;
+        margin-bottom: 0px;
+    }
+    .stNumberInput, .stSelectbox {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Main title
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access")
@@ -47,9 +70,9 @@ fields = [
 for feature, description, input_type, kwargs in fields:
     col1, col2 = st.columns([1, 2])
     with col1:
-        st.markdown(f"**{feature}:**")
+        st.markdown(f"<p class='compact-text'>{feature}:</p>", unsafe_allow_html=True)
     with col2:
-        st.markdown(f"<p style='font-size:14px; color:gray;'>{description}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p class='description'>{description}</p>", unsafe_allow_html=True)
         input_type("", **kwargs)
 
 # Predict button
