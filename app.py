@@ -29,19 +29,20 @@ st.sidebar.write("""
 &nbsp;&nbsp;&nbsp; 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
 """)
 
-# Custom CSS to reduce spacing
+# Custom CSS to reduce spacing and improve layout
 st.markdown(
     """
     <style>
     .compact-text {
         font-size: 18px;
         font-weight: bold;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
     .description {
         font-size: 14px;
         color: gray;
-        margin-bottom: 0px;
+        margin-top: -5px;
+        margin-bottom: 8px;
     }
     .stNumberInput, .stSelectbox {
         margin-top: 0px;
@@ -56,7 +57,7 @@ st.markdown(
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access")
 
-# Grouped layout for inputs
+# Grouped layout for inputs with improved formatting
 fields = [
     ("Count", "Number of connections to the same host in a short time.", st.number_input, {"min_value": 0, "value": 5, "key": "count"}),
     ("Source Bytes", "Data sent from source to destination (in bytes).", st.number_input, {"min_value": 0, "value": 500, "key": "src_bytes"}),
@@ -66,7 +67,7 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"})
 ]
 
-# Render inputs in a compact two-column layout
+# Render inputs in a clean, compact two-column layout
 for feature, description, input_type, kwargs in fields:
     col1, col2 = st.columns([1, 2])
     with col1:
