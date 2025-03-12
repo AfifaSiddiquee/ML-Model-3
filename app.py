@@ -7,7 +7,7 @@ model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
-# Define prediction function
+# Prediction function
 def predict_intrusion(data):
     df = pd.DataFrame([data])
     for col in feature_names:
@@ -29,50 +29,69 @@ st.sidebar.write("""
 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
 """)
 
-# Custom CSS for forced compact layout and styling
+# **NEW COMPACT CSS INJECTION**
 st.markdown(
     """
     <style>
-    /* Tighten layout and remove extra padding/margins */
-    .stApp { padding: 1rem; }
-    .block-container { padding-top: 1rem; padding-bottom: 1rem; }
+    /* Reduce padding, margins, and control layout width */
+    .stApp { padding: 0rem; }
+    .block-container { padding: 0.5rem; max-width: 800px; }
+    
+    /* Force compact input rows */
+    .input-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 5px;
+        margin-bottom: 8px;
+        align-items: center;
+    }
+    
     .compact-text {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
-        line-height: 1.1;
-        margin-bottom: 0px;
+        color: #333;
+        margin-bottom: 0;
     }
+
     .description {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 2px;
+    }
+
+    /* Compact input controls */
+    .stNumberInput input, .stSelectbox select {
+        padding: 4px;
         font-size: 14px;
-        color: #666;
-        margin-top: -10px;
-        margin-bottom: 5px;
-    }
-    .stNumberInput, .stSelectbox {
         margin-top: 0px !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 0px !important;
     }
+
+    /* Style the button */
     .stButton>button {
         color: white;
         background-color: #4CAF50;
-        padding: 10px 24px;
+        padding: 8px 16px;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 16px;
+        margin-top: 10px;
     }
-    /* Force tighter columns */
-    div[data-testid="column"] {
-        padding: 0px 5px;
+
+    /* Success and error message styling */
+    .stAlert {
+        font-size: 18px;
+        font-weight: bold;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Main app title
+# Main App Title
 st.title("🔍 Intrusion Detection System")
 st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# Define input fields with their descriptions
+# **Improved Input Fields Setup**
 fields = [
     ("Count", "Number of connections to the same host in a short time.", st.number_input, {"min_value": 0, "value": 5, "key": "count"}),
     ("Source Bytes", "Data sent from source to destination (in bytes).", st.number_input, {"min_value": 0, "value": 500, "key": "src_bytes"}),
@@ -82,21 +101,21 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"})
 ]
 
-# Render inputs in a two-column layout with tight margins
+# **Force Inputs into Tight Rows**
 for feature, description, input_type, kwargs in fields:
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st.markdown(f"<p class='compact-text'>{feature}:</p>", unsafe_allow_html=True)
-    with col2:
-        st.markdown(f"<p class='description'>{description}</p>", unsafe_allow_html=True)
-        input_type("", **kwargs)
+    st.markdown(f"<div class='input-container'>", unsafe_allow_html=True)
+    st.markdown(f"<p class='compact-text'>{feature}:</p>", unsafe_allow_html=True)
+    st.markdown(f"<p class='description'>{description}</p>", unsafe_allow_html=True)
+    input_type("", **kwargs)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# Intrusion detection button
+# Intrusion Detection Button
 if st.button("🔍 Detect Intrusion"):
+    # Collect input data from fields
     input_data = {field[0].lower().replace(" ", "_"): st.session_state[field[3]["key"]] for field in fields}
     result = predict_intrusion(input_data)
 
-    # Show result with dynamic color
+    # Display result with color
     if "Intrusion" in result:
         st.error(f"🚨 **{result}** 🚨")
     else:
