@@ -7,6 +7,7 @@ model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
+
 # Prediction function
 def predict_intrusion(data):
     df = pd.DataFrame([data])
@@ -18,34 +19,36 @@ def predict_intrusion(data):
     prediction = model.predict(df_scaled)
     return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
 
+
 # Sidebar content
 st.sidebar.title("📖 About the IDS App")
-st.sidebar.write("""
+st.sidebar.write(
+    """
 🔹 **Machine Learning-based Intrusion Detection System (IDS)**  
 🔹 Identifies **malicious network traffic** to **protect networks**  
 🔹 **How to use:**  
 1️⃣ Enter network details below  
 2️⃣ Click **"Detect Intrusion"**  
 3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
-""")
+"""
+)
 
-# **NEW COMPACT CSS INJECTION**
+# **Compact CSS Injection**
 st.markdown(
     """
     <style>
     /* Reduce padding, margins, and control layout width */
     .stApp { padding: 0rem; }
     .block-container { padding: 0.5rem; max-width: 800px; }
-    
+
     /* Force compact input rows */
     .input-container {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
         margin-bottom: 8px;
-        align-items: center;
     }
-    
+
     .compact-text {
         font-size: 16px;
         font-weight: bold;
@@ -56,7 +59,7 @@ st.markdown(
     .description {
         font-size: 13px;
         color: #555;
-        margin-bottom: 2px;
+        margin-bottom: 0px;
     }
 
     /* Compact input controls */
@@ -103,11 +106,12 @@ fields = [
 
 # **Force Inputs into Tight Rows**
 for feature, description, input_type, kwargs in fields:
-    st.markdown(f"<div class='input-container'>", unsafe_allow_html=True)
-    st.markdown(f"<p class='compact-text'>{feature}:</p>", unsafe_allow_html=True)
-    st.markdown(f"<p class='description'>{description}</p>", unsafe_allow_html=True)
-    input_type("", **kwargs)
-    st.markdown("</div>", unsafe_allow_html=True)
+    with st.container():
+        st.markdown(f"<div class='input-container'>", unsafe_allow_html=True)
+        st.markdown(f"<p class='compact-text'>{feature}:</p>", unsafe_allow_html=True)
+        st.markdown(f"<p class='description'>{description}</p>", unsafe_allow_html=True)
+        input_type("", **kwargs)
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # Intrusion Detection Button
 if st.button("🔍 Detect Intrusion"):
