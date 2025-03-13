@@ -44,18 +44,19 @@ def predict_intrusion(features):
     return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
 
 
-# --- Page 1: About the IDS App ---
+# --- Page 1: Welcome Section ---
 if st.session_state.page == 1:
-    st.title("📖 About the IDS App")
-    st.markdown(
+    st.title("🔍 Intrusion Detection System")
+    st.subheader("Protect Your Network from Unauthorized Access 🚀")
+    st.write(
         """
-        🔹 **Machine Learning-based Intrusion Detection System (IDS)**  
-        🔹 **Detects malicious network traffic to protect your network**  
-        
-        ### How to use:
-        1️⃣ **Read this overview**  
-        2️⃣ **Enter network details on the next page**  
-        3️⃣ **Get a prediction: Normal ✅ or Intrusion 🚨**  
+Welcome to the **Intrusion Detection System (IDS)**!  
+This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
+
+### 🚀 Features:
+- **Real-time prediction** of network traffic  
+- **Detects common attack patterns**  
+- **User-friendly input interface**  
         """
     )
 
@@ -106,5 +107,3 @@ if st.session_state.page == 2:
             st.error(f"🚨 **{result}** 🚨")
         else:
             st.success(f"✅ **{result}**")
-
-
