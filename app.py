@@ -20,19 +20,6 @@ def predict_intrusion(data):
     return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
 
 
-# Sidebar content
-st.sidebar.title("📖 About the IDS App")
-st.sidebar.write(
-    """
-🔹 **Machine Learning-based Intrusion Detection System (IDS)**  
-🔹 Identifies **malicious network traffic** to **protect networks**  
-🔹 **How to use:**  
-1️⃣ Read the description on the first page  
-2️⃣ Enter network details on the second page  
-3️⃣ Get a prediction: **Normal 🔵** or **Intrusion 🔴**
-"""
-)
-
 # Ensure session state has a page tracker
 if "page" not in st.session_state:
     st.session_state.page = 1
@@ -54,7 +41,7 @@ Welcome to the **Intrusion Detection System (IDS)**!
 This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
 
 ### 🚀 Features:
-- **Real-time prediction** of network traffic
+- **Real-time prediction** of network traffic  
 - **Detects common attack patterns**  
 - **User-friendly input interface**  
 
