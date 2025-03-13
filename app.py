@@ -7,6 +7,7 @@ model = joblib.load("intrusion_detection_model.pkl")
 scaler = joblib.load("scaler.pkl")
 feature_names = joblib.load("feature_names.pkl")
 
+
 # Prediction function
 def predict_intrusion(data):
     df = pd.DataFrame([data])
@@ -17,6 +18,7 @@ def predict_intrusion(data):
     df_scaled = scaler.transform(df)
     prediction = model.predict(df_scaled)
     return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
+
 
 # Sidebar content
 st.sidebar.title("📖 About the IDS App")
@@ -31,11 +33,11 @@ st.sidebar.write(
 """
 )
 
-# Improved CSS to force spacing changes
+# Improved CSS to reduce spacing and tighten layout
 st.markdown(
     """
     <style>
-    /* Streamlit main container padding fix */
+    /* Adjust spacing around main content */
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -43,15 +45,16 @@ st.markdown(
         padding-right: 1rem;
     }
 
-    /* Reduce space between elements */
-    .stNumberInput, .stSelectbox {
-        margin-bottom: 5px !important;
+    /* Reduce space between labels and inputs */
+    .stMarkdown p {
+        margin-bottom: -5px !important;
+        font-size: 14px;
     }
 
-    /* Adjust label spacing */
-    .stMarkdown p {
-        margin-bottom: 2px !important;
-        font-size: 14px;
+    /* Adjust input margins to pull closer */
+    .stNumberInput, .stSelectbox {
+        margin-top: -10px !important;
+        margin-bottom: 5px !important;
     }
 
     /* Button styling */
@@ -87,10 +90,10 @@ fields = [
     ("Service Count", "Number of connections to the same service.", st.number_input, {"min_value": 0, "value": 10, "key": "srv_count"}),
 ]
 
-# Display inputs with compact layout
+# Display inputs with tight layout
 for feature, description, input_type, kwargs in fields:
     st.markdown(f"**{feature}:**")
-    st.markdown(f"<p style='font-size:12px; color:#555; margin-top:-5px;'>{description}</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size:12px; color:#555; margin-top:-8px; margin-bottom:-5px;'>{description}</p>", unsafe_allow_html=True)
     input_type("", **kwargs)
 
 # Intrusion Detection Button
