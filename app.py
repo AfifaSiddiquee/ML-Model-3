@@ -34,7 +34,7 @@ def prev_page():
 # Page 1: Introduction and Description
 if st.session_state.page == 1:
     st.title("🔍 Intrusion Detection System")
-    st.subheader("Protect Your Network from Unauthorized Access 🚀")
+    st.subheader("Protect Your Network from Unauthorized Access")
     st.write(
         """
 Welcome to the **Intrusion Detection System (IDS)**!  
