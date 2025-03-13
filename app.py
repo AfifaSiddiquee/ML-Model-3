@@ -54,7 +54,20 @@ Click **Next** to start entering your network details and predict possible intru
         next_page()
 
 # Page 2: Input Features and Prediction
-elif st.session_state.page == 2:
+if st.session_state.page == 2:
+    # Force the title to stick to the top
+    st.markdown(
+        """
+        <style>
+        .block-container {
+            padding-top: 1rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Title and description
     st.title("🔧 Enter Network Details")
     st.write("Fill in the following details to predict potential intrusions:")
 
