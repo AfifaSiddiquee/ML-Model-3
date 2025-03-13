@@ -1,75 +1,74 @@
+# Import necessary libraries
 import streamlit as st
 import pandas as pd
-import joblib
+import numpy as np
+import pickle
 
-# Load model, scaler, and feature names
-model = joblib.load("intrusion_detection_model.pkl")
-scaler = joblib.load("scaler.pkl")
-feature_names = joblib.load("feature_names.pkl")
+# Load the pre-trained ML model (ensure you have this file saved in your project)
+model = pickle.load(open("model.pkl", "rb"))
 
+# --- Page Setup ---
+st.set_page_config(page_title="Machine Learning Intrusion Detection System", layout="wide")
 
-# Prediction function
-def predict_intrusion(data):
-    df = pd.DataFrame([data])
-    for col in feature_names:
-        if col not in df:
-            df[col] = 0
-    df = df[feature_names]
-    df_scaled = scaler.transform(df)
-    prediction = model.predict(df_scaled)
-    return "🔵 Normal Connection" if prediction[0] == 0 else "🔴 Intrusion Detected (Attack!)"
+# --- Custom CSS for styling ---
+st.markdown(
+    """
+    <style>
+    .block-container { padding-top: 1rem; }
+    .title { font-size: 2rem; font-weight: bold; }
+    .description { color: #555; font-size: 1rem; margin-bottom: 1.5rem; }
+    .stButton > button { background-color: #4CAF50; color: white; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-
-# Ensure session state has a page tracker
+# --- Page Navigation State ---
 if "page" not in st.session_state:
     st.session_state.page = 1
 
-# Navigation buttons
+
+# --- Function for navigating pages ---
 def next_page():
     st.session_state.page += 1
+
 
 def prev_page():
     st.session_state.page -= 1
 
-# Page 1: Introduction and Description
+
+# --- Prediction Function ---
+def predict_intrusion(features):
+    # Convert inputs into DataFrame for model
+    input_df = pd.DataFrame([features])
+    prediction = model.predict(input_df)
+    return "Intrusion Detected" if prediction[0] == 1 else "Normal Traffic"
+
+
+# --- Page 1: About the App ---
 if st.session_state.page == 1:
-    st.title("🔍 Intrusion Detection System")
-    st.subheader("Protect Your Network from Unauthorized Access")
-    st.write(
-        """
-Welcome to the **Intrusion Detection System (IDS)**!  
-This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
-
-### 🚀 Features:
-- **Real-time prediction** of network traffic  
-- **Detects common attack patterns**  
-- **User-friendly input interface**  
-
-Click **Next** to start entering your network details and predict possible intrusions! 🔥
-        """
-    )
-
-    # "Next" button for navigation
-    if st.button("➡️ Next"):
-        next_page()
-
-# Page 2: Input Features and Prediction
-if st.session_state.page == 2:
-    # Force the title to stick to the top
+    st.title("📖 About the IDS App")
     st.markdown(
         """
-        <style>
-        .block-container {
-            padding-top: 1rem;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
+        🔹 **Machine Learning-based Intrusion Detection System (IDS)**  
+        🔹 **Identifies malicious network traffic to protect networks**  
+        
+        ### How to use:
+        1️⃣ **Read this description**  
+        2️⃣ **Enter network details on the next page**  
+        3️⃣ **Get a prediction: Normal 🔵 or Intrusion 🔴**  
+        """
     )
 
-    # Title and description
-    st.title("🔧 Enter Network Details")
-    st.write("Fill in the following details to predict potential intrusions:")
+    if st.button("Next ➡️"):
+        next_page()
+
+
+# --- Page 2: Enter Network Details ---
+if st.session_state.page == 2:
+    # Force the title to stick to the top
+    st.markdown("<h1 class='title'>🔧 Enter Network Details</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='description'>Fill in the following details to predict potential intrusions:</p>", unsafe_allow_html=True)
 
     # Input fields setup
     fields = [
