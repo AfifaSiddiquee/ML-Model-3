@@ -1,143 +1,108 @@
-# Import required libraries
+# Import necessary libraries
 import streamlit as st
-import pandas as pd
-import numpy as np
 import pickle
 
-# Load the pre-trained ML model
+# Load the trained model
 model = pickle.load(open("intrusion_detection_model.pkl", "rb"))
 
-# --- Set page configuration ---
+# Set Streamlit page configuration
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
 
-# --- Custom styling ---
+# Custom CSS for styling and centering content
 st.markdown(
     """
     <style>
-    /* Center content on the first page */
-    .main-container {
+    /* Center the main content */
+    .main {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 90vh;
+        min-height: 90vh;
+    }
+
+    /* Style for the content box */
+    .content-box {
         text-align: center;
+        max-width: 600px;
+        padding: 20px;
     }
 
-    .title { 
-        font-size: 2.5rem; 
-        font-weight: bold; 
-        color: #4A90E2; 
-        margin-bottom: 0.5rem; 
+    /* Header styling */
+    h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #4A90E2;
     }
 
-    .description { 
-        color: #555; 
-        font-size: 1.2rem; 
-        margin-bottom: 1rem; 
+    h2 {
+        font-size: 1.5rem;
+        color: #555;
     }
 
-    .stButton > button { 
-        background-color: #4CAF50; 
-        color: white; 
-        font-weight: bold; 
+    /* Button styling */
+    .stButton > button {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        transition: 0.3s ease-in-out;
     }
 
-    .input-label { 
-        font-size: 1.1rem; 
-        font-weight: bold; 
-        margin-top: 0.5rem; 
+    .stButton > button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# --- Page navigation setup ---
-if "page" not in st.session_state:
-    st.session_state.page = 1
+# Centering the content
+st.markdown('<div class="main"><div class="content-box">', unsafe_allow_html=True)
 
+# Title and Subtitle
+st.title("🔍 Intrusion Detection System")
+st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# --- Page navigation functions ---
-def next_page():
-    st.session_state.page += 1
+# App introduction
+st.write(
+    """
+Welcome to the **Intrusion Detection System (IDS)**!  
+This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.
+"""
+)
 
+# Features section
+st.markdown("### 🚀 Features:")
+st.markdown("- **Real-time prediction** of network traffic")
+st.markdown("- **Detects common attack patterns**")
+st.markdown("- **User-friendly input interface**")
 
-def prev_page():
-    st.session_state.page -= 1
+# Navigation button to move forward
+if st.button("Next ➡️"):
+    st.write("Let's move to the next step!")
 
+# Close the content div
+st.markdown("</div></div>", unsafe_allow_html=True)
 
-# --- Prediction function ---
-def predict_intrusion(features):
-    input_df = pd.DataFrame([features])
-    prediction = model.predict(input_df)
-    return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
+# Placeholder for future network details input
+st.markdown("## 🛠️ Enter Network Details")
+st.write("Fill in the details below to predict potential intrusions:")
 
+# Example of user inputs
+ip_address = st.text_input("Enter IP Address")
+port = st.number_input("Enter Port Number", min_value=0, max_value=65535)
+protocol = st.selectbox("Select Protocol", ["TCP", "UDP", "ICMP"])
 
-# --- Page 1: Welcome Section ---
-if st.session_state.page == 1:
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
+# Predict button
+if st.button("Predict 🚨"):
+    # Example prediction (dummy prediction for now)
+    prediction = model.predict([[port]])  # Assuming model takes port as input
 
-    st.markdown("<h1 class='title'>🔍 Intrusion Detection System</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 class='description'>Protect Your Network from Unauthorized Access 🚀</h2>", unsafe_allow_html=True)
+    if prediction[0] == 1:
+        st.error("⚠️ **Potential Intrusion Detected!**")
+    else:
+        st.success("✅ **Connection looks safe!**")
 
-    st.write(
-        """
-        Welcome to the **Intrusion Detection System (IDS)**!  
-        This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
-        
-        ### 🚀 Features:
-        - **Real-time prediction** of network traffic  
-        - **Detects common attack patterns**  
-        - **User-friendly input interface**  
-        """
-    )
-
-    if st.button("Next ➡️"):
-        next_page()
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-
-# --- Page 2: Enter Network Details ---
-if st.session_state.page == 2:
-    # Force the title to stay at the top
-    st.markdown("<h1 class='title'>🔧 Enter Network Details</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='description'>Fill in the details below to predict potential intrusions:</p>", unsafe_allow_html=True)
-
-    # --- Input fields setup ---
-    col1, col2 = st.columns(2)
-
-    with col1:
-        count = st.number_input("🔹 Count", min_value=0, value=5, help="Number of connections to the same host in a short time.")
-        source_bytes = st.number_input("🔹 Source Bytes", min_value=0, value=500, help="Data sent from source to destination (in bytes).")
-        logged_in = st.selectbox("🔹 Logged In", [0, 1], help="User logged in? (1 = Yes, 0 = No)")
-
-    with col2:
-        service_error_rate = st.number_input("🔹 Service Error Rate", min_value=0.0, max_value=1.0, value=0.2, help="Percentage of connections with errors.")
-        destination_bytes = st.number_input("🔹 Destination Bytes", min_value=0, value=1000, help="Data sent from destination to source.")
-        service_count = st.number_input("🔹 Service Count", min_value=0, value=10, help="Number of connections to the same service.")
-
-    # "Back" button for navigation
-    if st.button("⬅️ Back"):
-        prev_page()
-
-    # Intrusion Detection button
-    if st.button("🔍 Detect Intrusion"):
-        # Gather user input data
-        features = {
-            "count": count,
-            "source_bytes": source_bytes,
-            "logged_in": logged_in,
-            "service_error_rate": service_error_rate,
-            "destination_bytes": destination_bytes,
-            "service_count": service_count,
-        }
-
-        # Get prediction result
-        result = predict_intrusion(features)
-
-        # Display prediction result
-        if "Intrusion" in result:
-            st.error(f"🚨 **{result}** 🚨")
-        else:
-            st.success(f"✅ **{result}**")
