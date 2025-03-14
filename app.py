@@ -1,108 +1,109 @@
-# Import necessary libraries
+# Import required libraries
 import streamlit as st
+import pandas as pd
+import numpy as np
 import pickle
 
-# Load the trained model
+# Load the pre-trained ML model
 model = pickle.load(open("intrusion_detection_model.pkl", "rb"))
 
-# Set Streamlit page configuration
+# --- Set page configuration ---
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
 
-# Custom CSS for styling and centering content
+# --- Custom styling ---
 st.markdown(
     """
     <style>
-    /* Center the main content */
-    .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 90vh;
-    }
-
-    /* Style for the content box */
-    .content-box {
-        text-align: center;
-        max-width: 600px;
-        padding: 20px;
-    }
-
-    /* Header styling */
-    h1 {
-        font-size: 3rem;
-        font-weight: bold;
-        color: #4A90E2;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-        color: #555;
-    }
-
-    /* Button styling */
-    .stButton > button {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: bold;
-        padding: 0.8rem 1.5rem;
-        font-size: 1.2rem;
-        border-radius: 10px;
-        transition: 0.3s ease-in-out;
-    }
-
-    .stButton > button:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-    }
+    .title { font-size: 2rem; font-weight: bold; color: #4A90E2; }
+    .description { color: #555; font-size: 1rem; margin-bottom: 1rem; }
+    .stButton > button { background-color: #4CAF50; color: white; font-weight: bold; }
+    .input-label { font-size: 1.1rem; font-weight: bold; margin-top: 0.5rem; }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Centering the content
-st.markdown('<div class="main"><div class="content-box">', unsafe_allow_html=True)
+# --- Page navigation setup ---
+if "page" not in st.session_state:
+    st.session_state.page = 1
 
-# Title and Subtitle
-st.title("🔍 Intrusion Detection System")
-st.subheader("Protect Your Network from Unauthorized Access 🚀")
 
-# App introduction
-st.write(
-    """
+# --- Page navigation functions ---
+def next_page():
+    st.session_state.page += 1
+
+
+def prev_page():
+    st.session_state.page -= 1
+
+
+# --- Prediction function ---
+def predict_intrusion(features):
+    input_df = pd.DataFrame([features])
+    prediction = model.predict(input_df)
+    return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
+
+
+# --- Page 1: Welcome Section ---
+if st.session_state.page == 1:
+    st.title("🔍 Intrusion Detection System")
+    st.subheader("Protect Your Network from Unauthorized Access 🚀")
+    st.write(
+        """
 Welcome to the **Intrusion Detection System (IDS)**!  
-This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.
-"""
-)
+This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
 
-# Features section
-st.markdown("### 🚀 Features:")
-st.markdown("- **Real-time prediction** of network traffic")
-st.markdown("- **Detects common attack patterns**")
-st.markdown("- **User-friendly input interface**")
+### 🚀 Features:
+- **Real-time prediction** of network traffic  
+- **Detects common attack patterns**  
+- **User-friendly input interface**  
+        """
+    )
 
-# Navigation button to move forward
-if st.button("Next ➡️"):
-    st.write("Let's move to the next step!")
+    if st.button("Next ➡️"):
+        next_page()
 
-# Close the content div
-st.markdown("</div></div>", unsafe_allow_html=True)
 
-# Placeholder for future network details input
-st.markdown("## 🛠️ Enter Network Details")
-st.write("Fill in the details below to predict potential intrusions:")
+# --- Page 2: Enter Network Details ---
+if st.session_state.page == 2:
+    # Force the title to stay at the top
+    st.markdown("<h1 class='title'>🔧 Enter Network Details</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='description'>Fill in the details below to predict potential intrusions:</p>", unsafe_allow_html=True)
 
-# Example of user inputs
-ip_address = st.text_input("Enter IP Address")
-port = st.number_input("Enter Port Number", min_value=0, max_value=65535)
-protocol = st.selectbox("Select Protocol", ["TCP", "UDP", "ICMP"])
+    # --- Input fields setup ---
+    col1, col2 = st.columns(2)
 
-# Predict button
-if st.button("Predict 🚨"):
-    # Example prediction (dummy prediction for now)
-    prediction = model.predict([[port]])  # Assuming model takes port as input
+    with col1:
+        count = st.number_input("🔹 Count", min_value=0, value=5, help="Number of connections to the same host in a short time.")
+        source_bytes = st.number_input("🔹 Source Bytes", min_value=0, value=500, help="Data sent from source to destination (in bytes).")
+        logged_in = st.selectbox("🔹 Logged In", [0, 1], help="User logged in? (1 = Yes, 0 = No)")
 
-    if prediction[0] == 1:
-        st.error("⚠️ **Potential Intrusion Detected!**")
-    else:
-        st.success("✅ **Connection looks safe!**")
+    with col2:
+        service_error_rate = st.number_input("🔹 Service Error Rate", min_value=0.0, max_value=1.0, value=0.2, help="Percentage of connections with errors.")
+        destination_bytes = st.number_input("🔹 Destination Bytes", min_value=0, value=1000, help="Data sent from destination to source.")
+        service_count = st.number_input("🔹 Service Count", min_value=0, value=10, help="Number of connections to the same service.")
 
+    # "Back" button for navigation
+    if st.button("⬅️ Back"):
+        prev_page()
+
+    # Intrusion Detection button
+    if st.button("🔍 Detect Intrusion"):
+        # Gather user input data
+        features = {
+            "count": count,
+            "source_bytes": source_bytes,
+            "logged_in": logged_in,
+            "service_error_rate": service_error_rate,
+            "destination_bytes": destination_bytes,
+            "service_count": service_count,
+        }
+
+        # Get prediction result
+        result = predict_intrusion(features)
+
+        # Display prediction result
+        if "Intrusion" in result:
+            st.error(f"🚨 **{result}** 🚨")
+        else:
+            st.success(f"✅ **{result}**")
