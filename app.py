@@ -14,8 +14,8 @@ st.set_page_config(page_title="Intrusion Detection System", layout="wide")
 st.markdown(
     """
     <style>
-    .title { font-size: 2rem; font-weight: bold; color: #4A90E2; }
-    .description { color: #555; font-size: 1rem; margin-bottom: 1rem; }
+    .title { font-size: 2rem; font-weight: bold; color: #4A90E2; text-align: center; }
+    .description { color: #555; font-size: 1rem; margin-bottom: 1rem; text-align: center; }
     .stButton > button { background-color: #4CAF50; color: white; font-weight: bold; }
     .input-label { font-size: 1.1rem; font-weight: bold; margin-top: 0.5rem; }
     </style>
@@ -46,18 +46,20 @@ def predict_intrusion(features):
 
 # --- Page 1: Welcome Section ---
 if st.session_state.page == 1:
-    st.title("🔍 Intrusion Detection System")
-    st.subheader("Protect Your Network from Unauthorized Access 🚀")
-    st.write(
+    st.markdown("<h1 class='title'>🔍 Intrusion Detection System</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 class='description'>Protect Your Network from Unauthorized Access 🚀</h2>", unsafe_allow_html=True)
+    st.markdown(
         """
-Welcome to the **Intrusion Detection System (IDS)**!  
-This app uses **Machine Learning** to detect whether a network connection is **normal** or **malicious**.  
-
-### 🚀 Features:
-- **Real-time prediction** of network traffic  
-- **Detects common attack patterns**  
-- **User-friendly input interface**  
-        """
+        <p class='description'>
+        Welcome to the <b>Intrusion Detection System (IDS)</b>!<br>
+        This app uses <b>Machine Learning</b> to detect whether a network connection is <b>normal</b> or <b>malicious</b>.<br><br>
+        <b>🚀 Features:</b><br>
+        - <b>Real-time prediction</b> of network traffic<br>
+        - <b>Detects common attack patterns</b><br>
+        - <b>User-friendly input interface</b>
+        </p>
+        """,
+        unsafe_allow_html=True,
     )
 
     if st.button("Next ➡️"):
