@@ -12,7 +12,7 @@ try:
     model = joblib.load("intrusion_detection_model (1).pkl")
     scaler = joblib.load("scaler.pkl")
     feature_names = joblib.load("feature_names.pkl")
-    st.success("✅ Model, scaler, and features loaded successfully!")
+    # Silent loading, no output shown
 except Exception as e:
     st.error(f"❌ Failed to load model or files: {e}")
 
