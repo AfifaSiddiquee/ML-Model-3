@@ -53,7 +53,7 @@ def predict_intrusion(features):
         prediction = model.predict(input_df)
 
         # Return the clean result
-        return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic-No suspicious activity detected. Your system remains stable and secure! "
+        return "🚨 Intrusion Detected!" if prediction[0] == 1 else "Normal Traffic - No suspicious activity detected. Your system remains stable and secure! "
 
     except Exception as e:
         st.error(f"⚠️ Prediction Error: {e}")
