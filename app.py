@@ -53,10 +53,12 @@ if st.session_state.page == 1:
         <p class='description'>
         Welcome to the <b>Intrusion Detection System (IDS)</b>!<br>
         This app uses <b>Machine Learning</b> to detect whether a network connection is <b>normal</b> or <b>malicious</b>.<br><br>
-        <b>🚀 Features:</b><br>
-        - <b>Real-time prediction</b> of network traffic<br>
-        - <b>Detects common attack patterns</b><br>
-        - <b>User-friendly input interface</b>
+        
+        <b>🔧 Key Features of the Intrusion Detection System:</b><br>
+        - <b>Advanced ML Model:</b> Trained on diverse datasets to recognize sophisticated attack signatures and anomaly patterns.<br>
+        - <b>Multi-Metric Input Analysis:</b> Evaluates source bytes, destination bytes, error rates, service counts, and user behaviors for accurate predictions.<br>
+        - <b>Dual-Mode Prediction:</b> Distinguishes between "normal" traffic and "malicious" attempts with high accuracy.<br>
+        - <b>Customizable Parameters:</b> Adjust error rates, traffic counts, and more for tailored detection thresholds.<br>
         </p>
         """,
         unsafe_allow_html=True,
