@@ -122,6 +122,6 @@ if st.session_state.page == 2:
 
         # Display prediction result
         if "Intrusion" in result:
-            st.error(f"🚨 **{result}** 🚨")
+            st.error(f"🚨 {result}🚨")
         else:
-            st.success(f"✅ **{result}**")
+            st.success(f"✅ {result}")
