@@ -2,10 +2,16 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
+import joblib
 
-# Load the pre-trained ML model
-model = pickle.load(open("intrusion_detection_model (1).pkl", "rb"))
+# --- Load the pre-trained ML model, scaler, and feature names ---
+try:
+    model = joblib.load("intrusion_detection_model (1).pkl")
+    scaler = joblib.load("scaler.pkl")
+    feature_names = joblib.load("feature_names.pkl")
+    st.success("✅ Model, scaler, and features loaded successfully!")
+except Exception as e:
+    st.error(f"❌ Failed to load model or files: {e}")
 
 # --- Set page configuration ---
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
@@ -31,17 +37,29 @@ if "page" not in st.session_state:
 def next_page():
     st.session_state.page += 1
 
-
 def prev_page():
     st.session_state.page -= 1
 
-
 # --- Prediction function ---
 def predict_intrusion(features):
-    input_df = pd.DataFrame([features])
-    prediction = model.predict(input_df)
-    return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
+    try:
+        # Ensure the input aligns with saved feature order
+        input_df = pd.DataFrame([features], columns=feature_names)
 
+        # Apply scaler transformation if model was trained on scaled data
+        input_df = scaler.transform(input_df)
+
+        # Debugging info
+        st.write("📊 Input Data Shape:", input_df.shape)
+        st.write("🔍 Input Data Type:", type(input_df))
+
+        # Make prediction
+        prediction = model.predict(input_df)
+        return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
+
+    except Exception as e:
+        st.error(f"⚠️ Prediction Error: {e}")
+        return "❌ Error in prediction"
 
 # --- Page 1: Welcome Section ---
 if st.session_state.page == 1:
@@ -65,7 +83,6 @@ if st.session_state.page == 1:
 
     if st.button("Next ➡️"):
         next_page()
-
 
 # --- Page 2: Enter Network Details ---
 if st.session_state.page == 2:
