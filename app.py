@@ -5,7 +5,7 @@ import numpy as np
 import pickle
 
 # Load the pre-trained ML model
-model = pickle.load(open("intrusion_detection_model(1).pkl", "rb"))
+model = pickle.load(open("intrusion_detection_model (1).pkl", "rb"))
 
 # --- Set page configuration ---
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
