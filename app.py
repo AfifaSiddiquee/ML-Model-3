@@ -15,7 +15,7 @@ st.markdown(
     """
     <style>
     .title { font-size: 2rem; font-weight: bold; color: #4A90E2; text-align: center; }
-    .description { color: #555; font-size: 1rem; margin-bottom: 1rem; text-align: center; }
+    .description { color: #ffffff; font-size: 1rem; margin-bottom: 1rem; text-align: center; }
     .stButton > button { background-color: #4CAF50; color: white; font-weight: bold; }
     .input-label { font-size: 1.1rem; font-weight: bold; margin-top: 0.5rem; }
     </style>
@@ -26,7 +26,6 @@ st.markdown(
 # --- Page navigation setup ---
 if "page" not in st.session_state:
     st.session_state.page = 1
-
 
 # --- Page navigation functions ---
 def next_page():
