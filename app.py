@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# --- Set page configuration (MUST be the first Streamlit command!) ---
+# --- Set page configuration (MUST be first) ---
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
 
 # --- Load the pre-trained ML model, scaler, and feature names ---
@@ -49,12 +49,10 @@ def predict_intrusion(features):
         # Apply scaler transformation if model was trained on scaled data
         input_df = scaler.transform(input_df)
 
-        # Debugging info
-        st.write("📊 Input Data Shape:", input_df.shape)
-        st.write("🔍 Input Data Type:", type(input_df))
-
         # Make prediction
         prediction = model.predict(input_df)
+
+        # Return the clean result
         return "🚨 Intrusion Detected!" if prediction[0] == 1 else "✅ Normal Traffic"
 
     except Exception as e:
