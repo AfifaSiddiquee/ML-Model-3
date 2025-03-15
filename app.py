@@ -7,15 +7,6 @@ import joblib
 # --- Set page configuration (MUST be the first Streamlit command!) ---
 st.set_page_config(page_title="Intrusion Detection System", layout="wide")
 
-# --- Load the pre-trained ML model, scaler, and feature names ---
-try:
-    model = joblib.load("intrusion_detection_model (1).pkl")
-    scaler = joblib.load("scaler.pkl")
-    feature_names = joblib.load("feature_names.pkl")
-    st.success("✅ Model, scaler, and features loaded successfully!")
-except Exception as e:
-    st.error(f"❌ Failed to load model or files: {e}")
-
 # --- Custom styling ---
 st.markdown(
     """
