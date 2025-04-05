@@ -62,7 +62,7 @@ def predict_intrusion(features):
 # --- Page 1: Welcome Section ---
 if st.session_state.page == 1:
     st.markdown("<h1 class='title'>🔍 CyberSentinel Guard</h1>", unsafe_allow_html=True)
-    st.image('IMAGE.jpg', use_container_width=False, width=1050)
+    st.image('IMAGE.jpg', use_container_width=False, width=2000)
 
     st.markdown("<h2 class='description'>Protect Your Network from Unauthorized Access </h2>", unsafe_allow_html=True)
     st.markdown(
