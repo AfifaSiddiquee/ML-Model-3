@@ -76,7 +76,7 @@ if st.session_state.page == 1:
     unsafe_allow_html=True
 )
 
-st.markdown('<img class="centered-image" src="IMAGE.jpg">', unsafe_allow_html=True)
+    st.markdown('<img class="centered-image" src="IMAGE.jpg">', unsafe_allow_html=True)
 
     st.markdown("<h2 class='description'>Protect Your Network from Unauthorized Access </h2>", unsafe_allow_html=True)
     st.markdown(
