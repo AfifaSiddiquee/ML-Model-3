@@ -68,8 +68,8 @@ if st.session_state.page == 1:
     st.markdown(
         """
         <p class='description'>
-        Welcome to the <b>Intrusion Detection System (IDS)</b>!<br>
-        This app uses <b>Machine Learning</b> to detect whether a network connection is <b>normal</b> or <b>malicious</b>.<br><br>
+        Welcome to the <b>CyberSentinel</b>! 🚀<br>
+        Empowering your network with <b>Machine Learning</b> to detect and prevent <b>malicious activities</b> in real-time. <br><br>
         
         <b>🔧 Key Features:</b><br>
         - <b>Advanced ML Model:</b> Trained on diverse datasets to recognize sophisticated attack signatures and anomaly patterns.<br>
